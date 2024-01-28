@@ -30,7 +30,7 @@ const multiplynumbers =  () => {
     let factor2 = parseFloat(document.getElementById("factor2").value);
     let product = multiply(factor1, factor2);
 };
-document.getElementById("#product").value = addEventListener('click', multiplynumbers);
+document.getElementById("#product").value = addEventListener("click", multiplynumbers);
 
 /* Open Function Use - Divide Numbers */
 const divide = (x,y) => x / y;
@@ -39,7 +39,7 @@ const dividenumbers =  () => {
     let divisor = parseFloat(document.getElementById("divisor").value);
     let quotient = divide(dividend, divisor);
 };
-document.getElementById("#quotient").value = addEventListener('click', dividenumbers);
+document.getElementById("#quotient").value = addEventListener("click", dividenumbers);
 
 /* Decision Structure */
 function getTotal() {
