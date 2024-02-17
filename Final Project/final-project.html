@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter</title>
+  <style>
+    /* Styling for the body */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    /* Styling for the currency converter container */
+    #converter {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styling for labels */
+    label {
+      margin-right: 10px;
+    }
+
+    /* Styling for inputs */
+    input {
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    /* Styling for buttons */
+    button {
+      padding: 8px 16px;
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Styling for button hover state */
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Styling for result paragraphs */
+    #results p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="converter">
+    <h2>Currency Converter</h2>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" min="0" step="0.01" value="1"><br>
+    <label for="from">From:</label>
+    <select id="from">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="GBP">GBP</option>
+      <option value="JPY">JPY</option>
+    </select><br>
+    <button id="convertBtn">Convert</button>
+    <div id="results"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Get references to the convert button and results div
+      const convertBtn = document.getElementById('convertBtn');
+      const resultsDiv = document.getElementById('results');
+
+      // Add click event listener to the convert button
+      convertBtn.addEventListener('click', () => {
+        // Get the amount and currency values from the input fields
+        const amount = parseFloat(document.getElementById('amount').value);
+        const fromCurrency = document.getElementById('from').value;
+        const currencies = ['USD', 'EUR', 'GBP', 'JPY'];
+
+        // Fetch exchange rates from a JSON file
+        fetch('exchange_rates.json')
+          .then(response => response.json()) // Convert response to JSON
+          .then(data => {
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            // Iterate through currencies to calculate conversion rates
+            currencies.forEach(currency => {
+              if (currency !== fromCurrency) {
+                const exchangeRate = data[fromCurrency][currency];
+                const convertedAmount = (amount * exchangeRate).toFixed(2); // Convert amount using exchange rate
+                resultsDiv.innerHTML += `<p>${amount} ${fromCurrency} = ${convertedAmount} ${currency}</p>`; // Display conversion result
+              }
+            });
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error); // Log error if fetch fails
+            resultsDiv.innerHTML = 'An error occurred. Please try again later.'; // Display error message
+          });
+      });
+    });
+  </script>
+  <!-- External JavaScript file for additional functionality -->
+  <script src="final-project.js"></script>
+</body>
+</html>
